@@ -1,0 +1,61 @@
+Para que domines el manejo de esta base de datos, he preparado una serie de ejercicios prácticos que van desde consultas simples hasta reportes con múltiples uniones (*JOINs*).
+
+---
+
+### Nivel 1: Consultas Básicas (Selección y Filtros)
+
+**1. Listado General de Alumnos**
+> Muestra el Carnet, Nombres y Apellidos de todos los alumnos de sexo femenino ('F').
+
+**2. Catálogo de Materias por Plan**
+> Selecciona el nombre de la materia y las unidades valorativas (UV) que pertenecen a la carrera 'I01' y al plan 2020.
+
+**3. Tipos de Finalización**
+> Muestra todas las descripciones de la tabla `TIPOFIN` ordenadas alfabéticamente.
+
+---
+
+### Nivel 2: Consultas con Uniones (Joins)
+
+**4. ¿Quién estudia qué?**
+> Muestra el **Nombre Completo** del alumno (nombres + apellidos) y el **Nombre de la Carrera** en la que está inscrito, uniendo las tablas `ALUMNO`, `PERTENECE` y `CARRERA`.
+
+**5. Materias por Carrera**
+> Genera un reporte que muestre: `Nombre de la Carrera`, `Plan` y `Nombre de la Materia`.
+
+**6. Estado de los Graduados**
+> Lista el carnet y nombres de los alumnos que tengan un `TIPOFIN` con la descripción 'Graduado'.
+
+---
+
+### Nivel 3: Agregaciones y Lógica
+
+**7. Conteo de Materias**
+> ¿Cuántas materias tiene registradas cada plan de carrera? (Muestra el Código de Carrera, el Plan y el total de materias).
+
+**8. Carga Académica**
+> Suma el total de Unidades Valorativas (UV) que tiene el plan 2024 de la carrera 'I01'.
+
+---
+
+### Nivel 4: Mantenimiento (DML)
+
+**9. Actualización de Datos**
+> El alumno con carnet 'AA23001' se ha retirado. Actualiza su registro en la tabla `PERTENECE` cambiando su `TIPOFIN` al código que corresponda a 'Retirado' y pon la fecha de hoy en `FECHAFIN`.
+
+**10. Inserción de Nueva Materia**
+> Inserta una materia llamada 'Base de Datos I' para la carrera 'I01', plan 2024, con 4 UV y para el 'Ciclo III'.
+
+---
+
+### 💡 Tip para resolverlos:
+Para los ejercicios de **Nivel 2**, recuerda que la tabla `PERTENECE` es tu "puente". La estructura básica de un JOIN ahí sería:
+
+```sql
+SELECT A.NOMBRES, C.NOMBRE AS CARRERA
+FROM ALUMNO A
+JOIN PERTENECE P ON A.CARNET = P.CARNET
+JOIN CARRERA C ON P.CODIGOCARRERA = C.CODIGOCARRERA;
+```
+
+¿Te gustaría que te comparta las soluciones de alguno en específico para comparar tus respuestas?

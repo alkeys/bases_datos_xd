@@ -1,0 +1,237 @@
+cells:
+  - kind: 2
+    value: >-
+      //Generar una lista con todos los empleados cuyo salario sea superior a
+      10.000 euros
+
+      SELECT staffNo, FNAME, LNAME, position, salary FROM Staff
+
+      WHERE salary > 10000;
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      //Generar un listado con la dirección de todas las sucursales de Londres y
+      Glasgow
+
+      SELECT * FROM Branch
+
+      WHERE city IN ('London', 'Glasgow');
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      //Generar un listado con todos los empleados cuyo salario esté comprendido
+      entre 20.000 y 30.000
+
+      //euros
+
+      SELECT staffNo, FNAME, LNAME, position, salary FROM Staff
+
+      WHERE salary BETWEEN 20000 AND 30000;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      //Generar un listado con todos los gerentes y supervisores.
+      SELECT staffNo, FNAME, LNAME, position, salary FROM Staff
+      WHERE position IN ('Manager', 'Supervisor');
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      /*
+
+      Utilizando la condición de búsqueda de SQL basada en correspondencia de
+      patrones, podemos locali-
+
+      zar a todos los propietarios en cuya dirección aparezca la cadena de
+      caracteres ‘Glasgow’ mediante la
+
+      siguiente consulta, que genera la tabla de resultados que se muestra en la
+      Tabla 5.9*/
+
+      SELECT ownerNo, FNAME, LNAME, address, telNo FROM PrivateOwner
+
+      WHERE address LIKE '%Glasgow%';
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      /*Sin embargo, ninguna de estas condiciones funcionaría correctamente. Los comentarios nulos tienen
+      un valor desconocido, por lo que no podemos comprobar si son iguales o distintos a ninguna otra cade-
+      na de caracteres. Si tratáramos de ejecutar la instrucción SELECT utilizando cualquiera de estas dos
+      condiciones  compuestas,  obtendríamos  una  tabla  de  resultados  vacía.  En  lugar  de  ello,  tenemos  que
+      comprobar explícitamente la existencia de valores nulos utilizando la palabra clave especial IS NULL*/
+      SELECT clientNo,viewDate FROM Viewing
+      WHERE propertyNo='PG4' AND viewDate IS NULL;
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      //generar una lista abreviada de inmuebles ordenada según el tipo de
+      inmueble
+
+      SELECT propertyNo, type, Rooms, rent FROM PropertyForRent
+
+      ORDER BY type;
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      /*ordenándolos según el importe del alquiler (rent), podemos especificar
+      un orden secundario de la forma
+
+      siguiente:*/
+
+      SELECT propertyNo, type, Rooms, rent FROM PropertyForRent
+
+      ORDER BY type, rent DESC;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      //¿Cuántos inmuebles tienen un alquiler superior a 350 euros por mes?
+      SELECT COUNT(*) AS total
+      FROM PROPERTYFORRENT
+      WHERE rent>350;
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      //¿Cuántos inmuebles distintos fueron visitados en mayo de 2004?
+
+      SELECT COUNT(DISTINCT propertyNo) AS total
+
+      FROM Viewing
+
+      WHERE viewDate BETWEEN TO_DATE('01-MAY-2004', 'DD-MON-YYYY') AND
+      TO_DATE('31-MAY-2004', 'DD-MON-YYYY');
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      //Calcular el número total de gerentes y la suma de sus salarios
+      SELECT COUNT(*) AS totalGerentes, SUM(salary) AS sumaSalarios
+      FROM Staff
+      WHERE position = 'Manager';
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      //calcule el salario minimo maximo u medio de los empleados
+      SELECT MIN(salary) AS salarioMinimo, MAX(salary) AS salarioMaximo,
+      AVG(salary) AS salarioMedio
+      FROM Staff;
+    languageId: oracle-sql
+  - kind: 2
+    value: >
+      //calcula el numero de emplados que trabajan en cada surcursal y la suma
+      de sus salarios
+
+      SELECT branchNo, COUNT(*) AS totalEmpleados, SUM(salary) AS sumaSalarios
+
+      FROM Staff
+
+      GROUP BY branchNo;
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      /*Para cada sucursal que tenga más de un empleado, averiguar el número de
+      empleados que trabajan
+
+      en cada sucursal y la suma de sus salarios.*/
+
+      SELECT branchNo, COUNT(*) AS totalEmpleados, SUM(salary) AS sumaSalarios
+
+      FROM Staff
+
+      GROUP BY branchNo
+
+      HAVING COUNT(*) > 1
+
+      ORDER BY branchNo;
+    languageId: oracle-sql
+  - kind: 2
+    value: >
+      //genere un listado con todos los emplados de la surusal ubucada en '163
+      Main St'
+
+      SELECT staffNo, FNAME, LNAME, position, salary FROM Staff
+
+      WHERE branchNo IN (SELECT branchNo FROM Branch WHERE address = '163 Main
+      St');
+    languageId: oracle-sql
+  - kind: 2
+    value: >
+      /*Generar un listado de todos los empleados cuyo salario sea superior al
+      salario medio, indicando cuál
+
+      es la diferencia en cada caso con respecto al salario medio.*/
+
+      SELECT staffNo, FNAME, LNAME, position, salary,
+
+      salary - (SELECT AVG(salary) FROM Staff) AS diferenciaSalario
+
+      FROM Staff
+
+      WHERE salary > (SELECT AVG(salary) FROM Staff);
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      /*Generar un listado con los inmuebles gestionados por los empleados que
+      trabajan en la sucursal situa-
+
+      da en ‘163 Main St’.*/
+
+      SELECT propertyNo, street, city, postcode, type, rooms, rent
+
+      FROM PropertyForRent
+
+      WHERE staffNo IN (SELECT staffNo
+
+      FROM Staff
+
+      WHERE branchNo = (SELECT branchNo
+
+      FROM Branch
+
+      WHERE street = '163 Main St'));
+    languageId: oracle-sql
+  - kind: 2
+    value: >+
+      //Determinar todos los empleados cuyo salario sea superior al salario de
+      al menos uno de los emplea-
+
+      //dos de la sucursal B003 con any /some
+
+      SELECT staffNo, FNAME, LNAME, position, salary
+
+      FROM Staff
+
+      WHERE salary > ANY (SELECT salary
+
+      FROM Staff
+
+      WHERE branchNo = 'B003');
+
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      /*Determinar todos los empleados cuyo salario sea superior al salario de
+      todos los empleados que tra-
+
+      bajan en la sucursal B003.*/
+
+      SELECT staffNo, FNAME, LNAME, position, salary
+
+      FROM Staff
+
+      WHERE salary > ALL (SELECT salary
+
+      FROM Staff
+
+      WHERE branchNo = 'B003');
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      /*Generar un listado con los nombres de todos los clientes que hayan
+      visitado un inmueble, incluyendo
+
+      en él los comentarios realizados.*/
+
+      SELECT clientNo, viewDate, comments
+
+      FROM Viewing
+
+      WHERE propertyNo IN (SELECT propertyNo FROM PropertyForRent);
+    languageId: oracle-sql
