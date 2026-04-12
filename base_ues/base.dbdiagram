@@ -1,0 +1,101 @@
+{
+  "version": "1.0.0",
+  "darkMode": true,
+  "gridEnabling": false,
+  "detailLevel": "All",
+  "tablePositions": [
+    {
+      "name": "TIPOFIN",
+      "schemaName": "public",
+      "x": 814.5641892904044,
+      "y": 293.41861182910293
+    },
+    {
+      "name": "ALUMNO",
+      "schemaName": "public",
+      "x": 1176.7603656260092,
+      "y": -361.9341216866885
+    },
+    {
+      "name": "CARRERA",
+      "schemaName": "public",
+      "x": 892.7360259095996,
+      "y": -654.7713453448941
+    },
+    {
+      "name": "PLANCARRERA",
+      "schemaName": "public",
+      "x": 1491.5138879342126,
+      "y": -543.5575092916423
+    },
+    {
+      "name": "MATERIA",
+      "schemaName": "public",
+      "x": 1203.32177734375,
+      "y": 356
+    },
+    {
+      "name": "PERTENECE",
+      "schemaName": "public",
+      "x": 1203.32177734375,
+      "y": 53
+    },
+    {
+      "name": "PERIODO_ACADEMICO",
+      "schemaName": "public",
+      "x": 1296.6238484421083,
+      "y": 956.8591830959765
+    },
+    {
+      "name": "GRUPO_CLASE",
+      "schemaName": "public",
+      "x": 1898.369140625,
+      "y": 443
+    },
+    {
+      "name": "INSCRIPCION_GRUPO",
+      "schemaName": "public",
+      "x": 2573.41650390625,
+      "y": 12
+    },
+    {
+      "name": "EQUIVALENCIA_MATERIA",
+      "schemaName": "public",
+      "x": 1898.369140625,
+      "y": 12
+    },
+    {
+      "name": "DOCENTE",
+      "schemaName": "public",
+      "x": 2490.0472208284887,
+      "y": 963.680666478019
+    },
+    {
+      "name": "DOCENTE_MATERIA",
+      "schemaName": "public",
+      "x": 1898.369140625,
+      "y": 841
+    },
+    {
+      "name": "GRUPO_DOCENTE",
+      "schemaName": "public",
+      "x": 2573.41650390625,
+      "y": 584
+    },
+    {
+      "name": "ACTIVIDAD_GRUPO",
+      "schemaName": "public",
+      "x": 2573.41650390625,
+      "y": 282
+    },
+    {
+      "name": "NOTA_ACTIVIDAD",
+      "schemaName": "public",
+      "x": 3081.31103515625,
+      "y": 12
+    }
+  ],
+  "tableGroupCollapseStates": [],
+  "stickyNoteLayouts": [],
+  "referencePaths": []
+}

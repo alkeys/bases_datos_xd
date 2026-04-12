@@ -235,3 +235,49 @@ cells:
 
       WHERE propertyNo IN (SELECT propertyNo FROM PropertyForRent);
     languageId: oracle-sql
+  - kind: 2
+    value: |-
+      //Determinar el número de inmuebles gestionados por cada empleado
+      SELECT s.branchNo, s.staffNo, COUNT(*) AS myCount
+      FROM Staff s, PropertyForRent p
+      WHERE s.staffNo = p.staffNo
+      GROUP BY s.branchNo, s.staffNo
+      ORDER BY s.branchNo, s.staffNo;
+    languageId: oracle-sql
+  - kind: 2
+    value: >
+      //Generar un listado con todas las sucursales y los inmuebles que estén en
+      la misma ciudad que alguna
+
+      //sucursal Combinación externa izquierda
+
+      SELECT b.branchNo, b.city, p.propertyNo, p.city
+
+      FROM Branch b
+
+      LEFT JOIN PropertyForRent p
+          ON b.city = p.city;
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      /*Generar un listado con las sucursales e inmuebles que estén en la misma
+      ciudad, incluyendo en el lis-
+
+      tado las sucursales o inmuebles que no tengan valores correspondientes.
+
+      La combinación externa completa de estas dos tablas*/
+
+      SELECT b.branchNo, b.city, p.propertyNo, p.city 
+
+      from Branch b FULL OUTER JOIN PropertyForRent p
+          ON b.city = p.city
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      //consulta utilizando exists
+      //Extraer todos los empleados que trabajen en una sucursal de Londres
+      SELECT staffNo, FNAME, LNAME, position
+      FROM Staff s
+      WHERE EXISTS (SELECT * FROM Branch b
+      WHERE b.branchNo = s.branchNo AND b.city = 'London');
+    languageId: oracle-sql

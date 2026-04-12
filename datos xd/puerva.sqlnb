@@ -1,9 +1,0 @@
-cells:
-  - kind: 2
-    value: |
-      --**1. Listado General de Alumnos**
-      --> Muestra el Carnet, Nombres y Apellidos de todos los alumnos
-      -- de sexo femenino ('F').
-      SELECT Carnet, Nombres, Apellidos FROM ALUMNO
-      WHERE Sexo = 'F';
-    languageId: oracle-sql
