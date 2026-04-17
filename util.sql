@@ -1,0 +1,23 @@
+-- =========================================
+-- CREAR USUARIO AISLADO CON PERMISOS PROPIOS
+-- =========================================
+
+DEFINE USERNAME = SOCIAL
+DEFINE PASSWORD = 1234
+
+-- 1. Crear usuario (esto crea su propio SCHEMA)
+CREATE USER &USERNAME IDENTIFIED BY &PASSWORD
+DEFAULT TABLESPACE USERS
+QUOTA UNLIMITED ON USERS;
+
+-- 2. Permiso para conectarse
+GRANT CREATE SESSION TO &USERNAME;
+
+-- 3. Permisos para trabajar en SU PROPIO SCHEMA
+GRANT CREATE TABLE TO &USERNAME;
+GRANT CREATE VIEW TO &USERNAME;
+GRANT CREATE PROCEDURE TO &USERNAME;
+GRANT CREATE SEQUENCE TO &USERNAME;
+
+-- (Opcional) permitir modificar sus propias tablas sin límites
+GRANT UNLIMITED TABLESPACE TO &USERNAME;

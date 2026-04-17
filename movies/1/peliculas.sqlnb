@@ -1,0 +1,206 @@
+cells:
+  - kind: 2
+    value: >-
+      /**1. Películas por Director
+
+      Enunciado: Encuentre los títulos de todas las películas cuyo director sea
+      Steven Spielberg.
+
+      Resultado:
+
+      E.T.
+
+      Raiders of the Lost*/
+
+      SELECT m.title
+
+      FROM MOVIE m
+
+      WHERE m.director = 'Steven Spielberg'
+
+      ORDER BY m.title ASC;
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      /**2. Años con Calificaciones Altas
+
+      Enunciado: Encuentre todos los años que tienen al menos una película con
+      una calificación de 4 o 5
+
+      estrellas. Ordene los años de forma ascendente.
+
+      Resultados esperados: El orden es importante
+
+      1937
+
+      1939
+
+      1981
+
+      2009 con sub consultas*/
+
+      SELECT DISTINCT m.year AS anio
+
+      FROM MOVIE m
+
+      JOIN RATING r ON m.mID = r.mID
+
+      WHERE r.stars IN (4, 5)
+
+      ORDER BY anio ASC;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      /**3. Películas sin Calificaciones
+      Enunciado: Encuentre los títulos de todas las películas
+       que no han recibido ninguna calificación en el sistema.*/
+      SELECT m.title
+      FROM MOVIE m
+      WHERE NOT EXISTS (
+          SELECT 1
+          FROM RATING r
+          WHERE r.mID = m.mID
+      )
+      ORDER BY m.title ASC;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      /**4. Críticos con Fechas Pendientes
+      Enunciado: Encuentre los nombres de todos los críticos que 
+      tengan al menos una calificación con ratingDate NULL.*/
+      SELECT DISTINCT rv.name
+      FROM REVIEWER rv
+      JOIN RATING r ON r.rID = rv.rID
+      WHERE r.ratingDate IS NULL
+      ORDER BY rv.name ASC;
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      /**5. Reporte Detallado de Calificaciones
+
+      Enunciado: Mostrar nombre del crítico, título de la película, estrellas y
+      fecha de calificación.
+
+      Ordenar por crítico, luego película y finalmente estrellas.*/
+
+      SELECT
+          rv.name        AS critic_name,
+          m.title        AS movie_title,
+          r.stars        AS stars,
+          r.ratingDate   AS rating_date
+      FROM RATING r
+
+      JOIN REVIEWER rv ON rv.rID = r.rID
+
+      JOIN MOVIE m     ON m.mID = r.mID
+
+      ORDER BY
+          rv.name ASC,
+          m.title ASC,
+          r.stars ASC;
+    languageId: oracle-sql
+  - kind: 2
+    value: ""
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      /**6. Análisis de Directores y Críticos
+
+      Enunciado: Para todos los casos donde el mismo crítico calificó la misma
+      película dos veces
+
+      y le dio una calificación más alta la segunda vez, devolver nombre del
+      crítico y título de la película.*/
+
+      SELECT DISTINCT
+          rv.name  AS critic_name,
+          m.title  AS movie_title
+      FROM RATING r1
+
+      JOIN RATING r2
+          ON r1.rID = r2.rID
+         AND r1.mID = r2.mID
+         AND r1.ratingDate < r2.ratingDate
+         AND r2.stars > r1.stars
+      JOIN REVIEWER rv ON rv.rID = r1.rID
+
+      JOIN MOVIE m     ON m.mID = r1.mID
+
+      ORDER BY
+          rv.name ASC,
+          m.title ASC;
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      /**7. Puntuaciones Máximas
+
+      Enunciado: Para cada película con al menos una calificación, mostrar el
+      título y su
+
+      calificación máxima. Ordenar alfabéticamente por título.*/
+
+      SELECT
+          m.title,
+          MAX(r.stars) AS max_stars
+      FROM MOVIE m
+
+      JOIN RATING r
+          ON r.mID = m.mID
+      GROUP BY
+          m.title
+      ORDER BY
+          m.title ASC;
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      /**8. Rango de Calificaciones (Spread)
+
+      Enunciado: Para cada película con al menos una calificación, calcule la
+      diferencia entre
+
+      su calificación más alta y la más baja. Muestre título y diferencia,
+      ordenando de mayor
+
+      a menor y luego por título.*/
+
+      SELECT
+          m.title,
+          MAX(r.stars) - MIN(r.stars) AS spread
+      FROM MOVIE m
+
+      JOIN RATING r
+          ON r.mID = m.mID
+      GROUP BY
+          m.title
+      ORDER BY
+          spread DESC,
+          m.title ASC;
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      /*9. Comparativa de Promedios Históricos
+
+      Enunciado: Calcule la diferencia entre el promedio de calificaciones de
+      las películas estrenadas antes de
+
+      1980 y el promedio de las estrenadas después de 1980.
+
+      Resultados esperados: 0.05555555*/
+
+      SELECT
+          (SELECT AVG(r.stars)
+           FROM MOVIE m
+           JOIN RATING r ON m.mID = r.mID
+           WHERE m.year < 1980) -
+          (SELECT AVG(r.stars)
+           FROM MOVIE m
+           JOIN RATING r ON m.mID = r.mID
+           WHERE m.year > 1980) AS average_difference
+      FROM DUAL;
+    languageId: oracle-sql
+  - kind: 2
+    value: "\n"
+    languageId: oracle-sql
+  - kind: 2
+    value: ""
+    languageId: oracle-sql

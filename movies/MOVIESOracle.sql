@@ -6,10 +6,6 @@
 -- o bien ALTER USER MOVIES QUOTA UNLIMITED ON USERS;
 -- despues vuelve a conectarte con ese usuario y corre este archivo
 
-
-
-
-
 -- 1. LIMPIEZA DE TABLAS (Por si ya existen)
 BEGIN
   EXECUTE IMMEDIATE 'DROP TABLE RATING';

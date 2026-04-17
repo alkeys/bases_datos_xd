@@ -2,6 +2,8 @@
 -- debes crear un usuario llamado SOCIAL ponle la clave y dale los permisos de 
 -- resource y de connect, luego conectate con ese usuario y ejecuta este script
 
+
+
 -- 1. ELIMINACIÓN DE TABLAS (En orden para evitar conflictos de llaves foráneas)
 DROP TABLE Likes;
 DROP TABLE Friend;
