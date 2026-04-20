@@ -305,3 +305,88 @@ cells:
           )
       )
     languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT re.NAME
+      FROM REVIEWER re
+      WHERE re.RID in(
+          SELECT ra.RID
+          from RATING ra
+          WHERE ra.RID is NOT NULL
+      )
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT *
+      FROM MOVIE m
+      WHERE m.MID in (
+          SELECT MID
+          FROM RATING
+          WHERE STARS IS NOT NULL
+      );
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT re.NAME
+      FROM REVIEWER re
+      JOIN RATING ra ON re.RID = ra.RID
+      WHERE ra.STARS =(
+          SELECT MAX(STARS)
+          FROM RATING
+      )
+    languageId: oracle-sql
+  - kind: 2
+    value: |+
+      --Mostrar película con menor promedio de rating
+      SELECT m.TITLE ,avg(r.STARS) as promedio
+      FROM MOVIE m
+      JOIN RATING r 
+      ON m.MID = r.MID
+      group by m.TITLE
+      HAVING avg(r.STARS) = (
+          SELECT MIN(promedio) FROM (
+              SELECT AVG(STARS) as promedio
+              FROM MOVIE m
+              JOIN RATING r ON m.MID = r.MID
+              GROUP BY m.MID
+          )
+      )
+
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      /*Mostrar reviewers que calificaron la misma película más de una vez*/
+      SELECT  re.NAME ,m.TITLE, COUNT(*)
+      FROM REVIEWER re 
+      JOIN RATING ra ON re.RID = ra.RID
+      join MOVIE m ON ra.MID = m.MID
+      GROUP BY re.NAME, m.TITLE
+      HAVING COUNT(*) > 1;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      --Mostrar películas cuyo director también es reviewer
+      SELECT m.TITLE, m.DIRECTOR
+      FROM MOVIE m
+      WHERE m.DIRECTOR in(
+          SELECT NAME
+          FROM REVIEWER
+      )
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      --Mostrar reviewer que calificó más películas distintas
+      SELECT DISTINCT re.NAME, COUNT(*)
+      FROM REVIEWER re
+      JOIN RATING ra ON re.RID = ra.RID
+      GROUP BY re.NAME
+      having COUNT(DISTINCT ra.MID) = (
+          SELECT MAX(numero_peliculas)
+          FROM (
+              SELECT COUNT(DISTINCT ra.MID) as numero_peliculas
+              FROM REVIEWER re
+              JOIN RATING ra ON re.RID = ra.RID
+              GROUP BY re.NAME
+          )
+      )
+    languageId: oracle-sql
