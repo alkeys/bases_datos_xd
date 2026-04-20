@@ -1,0 +1,307 @@
+cells:
+  - kind: 2
+    value: |-
+      /*Ejercicio 1 — Ver todas las películas
+
+      Consulta básica:*/
+      SELECT * FROM MOVIE;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      /*Ejercicio 2 — Ver solo nombres de películas*/
+      SELECT title FROM MOVIE;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      /*Ejercicio 3 — Mostrar título y año*/
+      SELECT title, year FROM MOVIE;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      /**Ejercicio 4 — Buscar películas de James Cameron*/
+      SELECT * FROM MOVIE
+      WHERE DIRECTOR = 'James Cameron';
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      /*Ejercicio 5 — Películas después del año 2000*/
+      SELECT * 
+      FROM MOVIE
+      WHERE YEAR > 2000;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      /*Ejercicio 6 — Reviewers llamados James Cameron*/
+      SELECT *
+      FROM REVIEWER
+      WHERE NAME = 'James Cameron';
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      /*Ejercicio 7 — Ratings con 4 estrellas o más*/
+      SELECT *
+      FROM RATING
+      WHERE STARS >= 4;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      /* sin ayuda de ia películas estrenadas antes de 1980*/
+      SELECT *
+      FROM MOVIE
+      WHERE YEAR < 1980;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      /*Ejemplo: ordenar películas por año*/
+      SELECT *
+      FROM MOVIE 
+      ORDER by YEAR;  
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      /*Orden descendente*/
+      SELECT *
+      FROM MOVIE 
+      ORDER BY YEAR DESC;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT *
+      FROM MOVIE
+      ORDER by TITLE DESC;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT *
+      FROM MOVIE
+      ORDER BY DIRECTOR, YEAR;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT DISTINCT d.DIRECTOR
+      FROM MOVIE d;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT DISTINCT STARS 
+      FROM RATING;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT DISTINCT *
+      FROM MOVIE
+      ORDER BY YEAR DESC;
+    languageId: oracle-sql
+  - kind: 2
+    value: SELECT  distinct DIRECTOR from MOVIE;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT TITLE FROM MOVIE
+      ORDER BY TITLE;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT *
+      FROM MOVIE m
+      JOIN RATING r ON m.MID = r.MID;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT m.TITLE, r.STARS
+      FROM MOVIE m
+      JOIN RATING r ON r.MID = m.MID; 
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT r.NAME, m.TITLE ,ra.STARS
+      FROM REVIEWER r
+      JOIN RATING ra ON r.RID = ra.RID
+      JOIN MOVIE m 
+      on ra.MID = m.MID;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT m.TITLE, r.STARS
+      FROM MOVIE m
+      JOIN RATING r ON m.MID = r.MID
+      WHERE r.STARS >= 5;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT re.NAME, ra.STARS
+      FROM REVIEWER re
+      JOIN RATING ra ON re.RID = ra.RID;
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      SELECT m.TITLE,m.DIRECTOR, r.STARS
+      FROM MOVIE m
+      JOIN RATING r 
+      ON m.MID = r.MID;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT re.NAME, m.TITLE, r.STARS
+      FROM MOVIE m
+      JOIN RATING r ON m.MID = r.MID
+      Join REVIEWER re ON r.RID = re.RID;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT count(*)
+      FROM MOVIE;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT COUNT(DISTINCT(NAME))
+      FROM REVIEWER;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT AVG(STARS)
+      FROM RATING;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT MAX(STARS)
+      FROM RATING;
+
+      SELECT MIN(STARS)
+      FROM RATING;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT m.TITLE,AVG(STARS)
+      FROM MOVIE m
+      JOIN RATING r ON m.MID = r.MID
+      GROUP BY m.TITLE;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT m.TITLE,COUNT(ra.MID) as numero_de_ratings_por_pelicula
+      FROM MOVIE m
+      JOIN RATING ra ON m.MID = ra.MID
+      GROUP BY m.TITLE;
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      SELECT m.TITLE,AVG(ra.STARS)
+      FROM MOVIE m
+      JOIN RATING ra ON m.MID = ra.MID
+      GROUP BY m.TITLE
+      having AVG(ra.STARS) >3;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT COUNT(*)
+      FROM REVIEWER;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT r.RID, AVG(ra.STARS)
+      FROM RATING ra
+      JOIN REVIEWER r ON ra.RID = r.RID
+      GROUP BY r.RID;
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      SELECT re.NAME, AVG(ra.STARS)
+      FROM REVIEWER re
+      JOIN RATING ra ON re.RID = ra.RID
+      group by re.NAME;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT m.TITLE ,count(ra.STARS)
+      FROM MOVIE m
+      JOIN RATING ra ON m.MID = ra.MID
+      group by m.TITLE
+      having count(ra.STARS) > 1;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT mov.title, COUNT(*)
+      FROM MOVIE mov
+      JOIN RATING rat
+      ON mov.mID = rat.mID
+      GROUP BY mov.title
+      HAVING COUNT(*) > 1;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT *
+      FROM MOVIE
+      WHERE YEAR =(
+          SELECT MAX(YEAR) FROM MOVIE
+      )
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT name
+      FROM REVIEWER
+      WHERE RID in (
+          SELECT RID
+          FROM RATING
+          WHERE STARS = 5
+      );
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT title, DIRECTOR
+      FROM MOVIE
+      WHERE DIRECTOR in (SELECT name 
+      from REVIEWER);
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT m.TITLE
+      FROM MOVIE m
+      WHERE MID IN 
+      (SELECT MID
+      FROM RATING
+      GROUP BY MID
+      HAVING AVG(STARS) > 3);
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT m.TITLE
+      FROM MOVIE m
+      WHERE YEAR = (
+          SELECT MIN(YEAR)
+          FROM MOVIE
+      );
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT *
+      FROM REVIEWER
+      where RID in (
+          SELECT RID
+          FROM RATING 
+          WHERE STARS = 4
+      );
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT *
+      FROM MOVIE
+      where DIRECTOR IN(
+          SELECT DIRECTOR
+          FROM MOVIE
+          WHERE DIRECTOR = 'Steven Spielberg'
+      )
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT re.NAME
+      FROM REVIEWER re
+      WHERE re.RID in (
+          SELECT ra.RID
+          FROM RATING ra
+          JOIN MOVIE m ON ra.MID = m.MID
+          where m.YEAR in (
+              SELECT MAX(YEAR) FROM MOVIE
+          )
+      )
+    languageId: oracle-sql

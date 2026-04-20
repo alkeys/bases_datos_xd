@@ -65,7 +65,7 @@ FROM RATING rt1
 JOIN REVIEWER r1 ON rt1.rID = r1.rID
 JOIN RATING rt2 ON rt1.mID = rt2.mID
 JOIN REVIEWER r2 ON rt2.rID = r2.rID
-WHERE r1.rID < r2.rID; -- Esto asegura que no se empareje un crítico con él mismo
+WHERE r1.rID < r2.rID; 
 
 
 /*Estadísticas de Calificaciones por Crítico
