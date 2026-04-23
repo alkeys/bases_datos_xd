@@ -1,0 +1,513 @@
+cells:
+  - kind: 2
+    value: |
+      SELECT DISTINCT m.TITLE
+      FROM MOVIE m
+      WHERE m.MID not in (
+          SELECT ra.MID
+          FROM RATING ra
+
+      )
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT re.NAME
+      FROM REVIEWER re
+      JOIN RATING ra on ra.RID = re.RID
+      WHERE ra.RATINGDATE is null
+    languageId: oracle-sql
+  - kind: 2
+    value: |+
+      SELECT DISTINCT re.NAME 
+      FROM REVIEWER re
+      JOIN RATING ra on ra.RID=re.RID
+      JOIN MOVIE m on m.MID=ra.MID
+      WHERE m.YEAR =(SELECT MAX(m2.YEAR)
+      FROM MOVIE m2
+      )
+
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT m.TITLE,AVG(ra.STARS)
+      FROM MOVIE m
+      JOIN RATING ra on ra.MID =m.MID
+      GROUP BY  m.TITLE
+      having AVG(ra.STARS)=(
+          SELECT MIN(strellas)
+          FROM (
+              SELECT AVG(ra2.STARS) as strellas
+              FROM RATING ra2
+              GROUP by ra2.MID
+          )
+      )
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT AVG(ra2.STARS)
+      FROM RATING ra2
+    languageId: oracle-sql
+  - kind: 2
+    value: |+
+      SELECT m.TITLE,ra.STARS
+      FROM MOVIE m
+      JOIN RATING ra on ra.MID =m.MID
+      WHERE ra.STARS = (
+          SELECT MAX(ra2.STARS)
+          FROM RATING ra2
+          
+      )
+      GROUP BY m.TITLE,ra.STARS
+
+    languageId: oracle-sql
+  - kind: 2
+    value: "   SELECT MAX(ra2.STARS)
+
+      \    FROM RATING ra2
+
+      \    "
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT m.TITLE,MAX(ra.STARS)
+      FROM MOVIE m
+      JOIN RATING ra on ra.MID = m.MID
+      GROUP BY m.TITLE
+      order by m.TITLE
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT m.TITLE,re.NAME
+      FROM MOVIE m
+      JOIN RATING ra ON ra.MID = m.MID 
+      JOIN REVIEWER re on re.RID = ra.RID
+      WHERE ra.MID not in (
+          SELECT rat.MID
+              FROM RATING rat
+          JOIN REVIEWER rev on rev.RID=rat.RID
+          WHERE rev.NAME ='Chris Jackson'
+      )
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT m.TITLE
+      FROM MOVIE m
+      WHERE m.DIRECTOR = 'Steven Spielberg'
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT m.YEAR
+      FROM MOVIE m
+      JOIN RATING ra on ra.MID =m.MID
+      WHERE ra.STARS>04
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT m.TITLE
+      FROM MOVIE m
+      LEFT JOIN RATING ra on ra.MID =m.MID
+      WHERE ra.STARS is null
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT re.NAME
+      FROM REVIEWER re
+      JOIN RATING ra on ra.RID=re.RID
+      WHERE ra.RATINGDATE is NULL
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      SELECT re.NAME , m.TITLE,ra.STARS,ra.RATINGDATE
+      FROM REVIEWER re
+      JOIN RATING ra on ra.RID =re.RID
+      JOIN MOVIE m ON m.MID =ra.MID
+      order by re.NAME,m.TITLE,ra.STARS
+    languageId: oracle-sql
+  - kind: 2
+    value: |+
+      SELECT re.NAME,m.TITLE,max(ra.STARS)
+      FROM MOVIE m 
+      JOIN RATING ra on ra.MID=m.MID
+      JOIN RATING rat on rat.RID=ra.RID
+      JOIN REVIEWER re on re.RID=ra.RID
+      where  ra.RID =re.RID and rat.RID=re.RID 
+      GROUP BY re.NAME, m.TITLE;
+
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT m.TITLE,max(ra.STARS) 
+      FROM RATING ra
+      JOIN MOVIE m on m.MID=ra.MID
+      GROUP by m.TITLE 
+      ORDER BY m.TITLE
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT m.TITLE,(MAX(ra.STARS)-MIN(ra.STARS)) as difrencia
+      FROM MOVIE m
+      JOIN RATING ra on ra.MID=m.MID
+      GROUP by m.TITLE 
+      ORDER by difrencia DESC, m.TITLE  ;
+    languageId: oracle-sql
+  - kind: 2
+    value: |+
+      SELECT (
+          SELECT AVG(ra.STARS) 
+      FROM RATING ra
+      JOIN MOVIE m on m.MID=ra.MID
+      where m.YEAR<1980 
+      )
+      -
+      (SELECT AVG(ra.STARS) 
+      FROM RATING ra
+      JOIN MOVIE m on m.MID=ra.MID
+      where m.YEAR>1980 ) as promido
+      FROM dual
+
+
+    languageId: oracle-sql
+  - kind: 2
+    value: |+
+      SELECT h1.NAME 
+      FROM FRIEND fr
+      JOIN HIGHSCHOOLER h1 on h1.ID=fr.ID1
+      JOIN HIGHSCHOOLER h2 on h2.ID=fr.ID2
+      where h2.NAME='Gabriel'
+
+    languageId: oracle-sql
+  - kind: 2
+    value: |2
+       SELECT hi2.ID
+          FROM HIGHSCHOOLER hi2
+          WHERE hi2.NAME = 'Gabriel'
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      SELECT h1.NAME,h1.GRADE , h2.NAME,h2.GRADE
+      FROM LIKES l1
+      JOIN HIGHSCHOOLER h1 on h1.ID=l1.ID1
+      JOIN HIGHSCHOOLER h2 on h2.ID=l1.ID2
+      WHERE (h1.GRADE-h2.GRADE) >=2
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT h1.NAME, h1.GRADE, h2.NAME, h2.GRADE
+      FROM LIKES l1
+      JOIN LIKES l2 on l2.ID1 =l1.ID2 and l2.ID2=l1.ID1
+      JOIN HIGHSCHOOLER h1 on l1.ID1=h1.ID
+      JOIN HIGHSCHOOLER h2 on l1.ID2=h2.ID
+      WHERE h1.ID<h2.ID
+      order by h1.NAME
+    languageId: oracle-sql
+  - kind: 2
+    value: |+
+      SELECT h1.NAME,h2.NAME
+      FROM LIKES l1 
+      join LIKES l2 on l1.ID1=l2.ID2 and l1.ID2=l2.ID1
+      join HIGHSCHOOLER h1 on h1.ID=l1.ID1
+      join HIGHSCHOOLER h2 on h2.ID =l1.ID2
+      WHERE h1.ID<h2.ID
+      order BY 1,2
+
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      SELECT h1.NAME, h2.NAME
+      FROM LIKES l1
+      JOIN HIGHSCHOOLER h1 ON h1.ID = l1.ID1
+      JOIN HIGHSCHOOLER h2 ON h2.ID = l1.ID2
+      WHERE NOT EXISTS (
+          SELECT 1 FROM LIKES l2 
+          WHERE l2.ID1 = l1.ID2 AND l2.ID2 = l1.ID1
+      );
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT h1.NAME
+      FROM LIKES l1
+      JOIN HIGHSCHOOLER h1 on h1.ID =l1.ID1
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT distinct h1.NAME
+      FROM LIKES l1
+      JOIN HIGHSCHOOLER h1 on h1.ID=l1.ID2
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      SELECT h1.NAME
+      FROM HIGHSCHOOLER h1
+      where h1.ID not in(
+          SELECT l2.ID1
+      FROM LIKES l2
+      )
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT h1.NAME
+      FROM LIKES l1
+      JOIN HIGHSCHOOLER h1 on h1.ID =l1.ID1
+      where not EXISTS(
+          SELECT 1 
+          FROM LIKES l2
+          WHERE l1.ID1=l1.ID2 and
+          l1.ID2=l1.ID1
+      )
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT h1.NAME
+      FROM HIGHSCHOOLER h1 JOIN FRIEND f on f.ID1=h1.ID
+      JOIN HIGHSCHOOLER h2 on h2.ID=f.ID2
+      where h2.NAME='Gabriel'
+      ORDER BY h1.NAME
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT h2.NAME
+      FROM HIGHSCHOOLER h2
+      JOIN FRIEND l1 on l1.ID1=h2.ID
+      where l1.ID2 in (SELECT h1.ID
+      FROM HIGHSCHOOLER h1
+      WHERE h1.NAME='Gabriel')
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      SELECT h1.NAME,count(l1.ID1)
+      FROM LIKES l1
+      JOIN HIGHSCHOOLER h1 on l1.ID1=h1.ID
+      group by h1.NAME
+      having count(l1.ID1) >1
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      SELECT max(l1.ID1)
+      FROM LIKES l1
+      JOIN HIGHSCHOOLER h1 on l1.ID1=h1.ID
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT h1.NAME
+      FROM FRIEND fr
+      JOIN HIGHSCHOOLER h1 ON h1.ID=fr.ID1
+      JOIN HIGHSCHOOLER h2 on h2.ID=fr.ID2
+      where h2.NAME='Gabriel'
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT h1.NAME
+      FROM LIKES l1
+      JOIN HIGHSCHOOLER h1 on h1.ID=l1.ID2
+      having count(l1.ID2)>1
+      GROUP BY h1.NAME
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      SELECT h1.name
+      FROM LIKES l1 
+      left join HIGHSCHOOLER h1 on h1.ID=l1.ID1
+      where h1.ID not in (
+          SELECT l2.ID1
+          FROM LIKES l2
+      )
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      SELECT h1.NAME,h2.NAME
+      FROM LIKES l1
+      JOIN HIGHSCHOOLER h1 on h1.ID=l1.ID1
+      JOIN  HIGHSCHOOLER h2 on h2.ID=l1.ID2
+      join FRIEND f1 on f1.ID1 =h1.ID and f1.ID2=h2.ID
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      --22
+      SELECT DISTINCT h1.name
+      FROM Likes l1
+      JOIN Highschooler h1
+          ON h1.ID = l1.ID1
+      WHERE NOT EXISTS (
+          SELECT 1
+          FROM Friend f1
+          WHERE f1.ID1 = l1.ID1
+            AND f1.ID2 = l1.ID2
+      );
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT h1.NAME
+      FROM LIKES l1
+      JOIN HIGHSCHOOLER h1 on h1.ID=l1.ID1
+      union 
+      SELECT h2.NAME
+      FROM LIKES l2 
+      JOIN HIGHSCHOOLER h2 on h2.ID=l2.ID2
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT m.TITLE
+      FROM MOVIE m
+      JOIN RATING ra on ra.MID=m.MID 
+      JOIN REVIEWER re on re.RID =ra.RID
+      group by m.TITLE
+      having count(re.RID)>1
+    languageId: oracle-sql
+  - kind: 2
+    value: |+
+      SELECT re.NAME
+      FROM REVIEWER re
+      JOIN RATING ra on ra.RID=re.RID
+      group by re.NAME
+      having count(DISTINCT ra.MID) >=2
+
+
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      SELECT m.TITLE
+      FROM MOVIE m
+      JOIN RATING ra on ra.MID=m.MID
+      GROUP BY m.TITLE
+      having AVG(ra.STARS)>3
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT re.NAME
+      FROM REVIEWER re
+      JOIN RATING ra on ra.RID=re.RID
+      JOIN MOVIE m on m.MID=ra.MID
+      where re.RID not in (
+          SELECT ra.RID
+          FROM MOVIE m
+          JOIN RATING ra on ra.MID=m.MID
+          WHERE m.DIRECTOR = 'Steven Spielberg'
+      )
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      SELECT DISTINCT   m.TITLE
+      FROM MOVIE m
+      JOIN RATING ra on ra.MID =m.MID
+      where ra.RID =(
+          SELECT re.RID
+          FROM REVIEWER re
+          WHERE re.NAME = 'James Cameron'
+      )
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      --30
+      SELECT re.NAME
+      FROM REVIEWER re
+      JOIN RATING ra on ra.RID=re.RID
+      JOIN MOVIE m on m.MID =ra.MID
+      where m.YEAR = (
+          SELECT MAX(m2.YEAR)
+      FROM MOVIE m2)
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT m1.TITLE
+      FROM MOVIE m1
+      JOIN RATING ra on ra.MID=m1.MID
+      where ra.STARS =(
+        SELECT MAX(ra2.STARS)
+        FROM RATING ra2
+      )
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      SELECT m1.TITLE
+      FROM movie m1
+      join RATING r1 on r1.MID = m1.MID
+      GROUP BY m1.TITLE
+      having AVG(r1.STARS) >=(
+          SELECT max(promedio)
+          from (
+              SELECT AVG(r2.STARS) as promedio
+              FROM RATING r2
+               GROUP BY r2.mID
+          )
+      )
+    languageId: oracle-sql
+  - kind: 2
+    value: |2-
+         SELECT max(promedio)
+          from (
+              SELECT AVG(r2.STARS) as promedio
+              FROM RATING r2
+              GROUP by r2.MID
+          )
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT DISTINCT  re1.NAME
+      FROM REVIEWER re1
+      JOIN RATING ra on ra.RID=re1.RID
+      where ra.MID in (
+          SELECT m.MID
+          FROM MOVIE m 
+          WHERE m.DIRECTOR ='James Cameron'
+      )
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT *
+      FROM MOVIE m
+      LEFT JOIN RATING ra on ra.MID=m.MID
+      where ra.MID is null
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT *
+      FROM REVIEWER re 
+      JOIN RATING ra on ra.RID=re.RID
+      where ra.RATINGDATE is NULL
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      SELECT m.TITLE
+      FROM MOVIE m
+      JOIN  RATING ra on ra.MID=m.MID
+      having count(ra.STARS) >1
+      GROUP by m.TITLE
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT re.NAME
+      FROM REVIEWER re
+      JOIN RATING ra on ra.RID=re.RID
+      having COUNT(DISTINCT(ra.MID)) >1
+      GROUP BY re.NAME
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT m.TITLE
+      FROM MOVIE m
+      JOIN RATING ra on ra.MID=m.MID
+      having AVG(ra.STARS) =3
+      GROUP BY m.TITLE
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT re.NAME
+      FROM REVIEWER re
+      JOIN RATING ra on ra.RID=re.RID
+      where ra.STARS =(
+          SELECT MAX(ra.STARS)
+          FROM RATING ra
+      )
+      GROUP by re.NAME
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT DISTINCT m.TITLE
+      FROM MOVIE m
+      JOIN RATING ra on ra.MID=m.MID
+      where ra.RID =(
+          SELECT re.RID
+          FROM REVIEWER re
+          WHERE re.NAME ='Sarah Martinez'
+      )
+    languageId: oracle-sql

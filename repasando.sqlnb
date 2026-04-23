@@ -1,0 +1,205 @@
+cells:
+  - kind: 2
+    value: |-
+      SELECT m.title
+      FROM movie m
+      WHERE m.director ='Steven Spielberg'
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT m.YEAR
+      FROM MOVIE m
+      JOIN RATING ra
+      on m.MID = ra.MID
+      WHERE ra.STARS >= 4
+      ORDER BY m.YEAR asc
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT DISTINCT m.title
+      FROM MOVIE m
+      LEFT JOIN RATING r ON m.MID = r.MID
+      WHERE r.MID IS NULL;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT re.NAME
+      FROM REVIEWER re
+      JOIN RATING ra ON re.RID = ra.RID
+      WHERE ra.RATINGDATE is null
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      SELECT re.NAME , m.title, ra.STARS, ra.RATINGDATE
+      FROM REVIEWER re
+      JOIN RATING ra ON re.RID = ra.RID
+      jOIN MOVIE m ON ra.MID = m.MID
+      ORDER BY re.NAME, m.title, ra.STARS;
+    languageId: oracle-sql
+  - kind: 2
+    value: >
+      /*
+
+      Enunciado: Para todos los casos donde el mismo crítico calificó la misma
+      película dos veces y le dio una
+
+      calificación más alta la segunda vez, devuelva el nombre del crítico y el
+      título de la película.
+
+      */SELECT re.name,m.TITLE
+
+      FROM REVIEWER re
+
+      JOIN RATING ra ON re.RID = ra.RID
+
+      join MOVIE m ON ra.MID = m.MID
+
+      where ra.STARS > (SELECT ra2.STARS
+
+      FROM RATING ra2
+
+      WHERE ra2.RID = re.RID
+
+      AND ra2.MID = m.MID
+
+      AND ra2.RATINGDATE < ra.RATINGDATE)
+
+      ORDER BY re.name, m.TITLE;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT DISTINCT m.TITLE,ra.STARS
+      FROM MOVIE m
+      JOIN RATING ra ON m.MID = ra.MID
+      WHERE ra.STARS = (SELECT MAX(ra2.STARS)
+      FROM RATING ra2
+      WHERE ra2.MID = m.MID)
+      ORDER BY m.TITLE;
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      /*
+
+      8. Rango de Calificaciones (Spread)
+
+      Enunciado: Para cada película, calcule la diferencia entre su calificación
+      más alta y la más baja. Muestre
+
+      el título y la diferencia, ordenando de mayor a menor y luego por
+      título.*/
+
+      SELECT m.TITLE, (MAX(ra.STARS) - MIN(ra.STARS)) AS RANGO
+
+      FROM MOVIE m
+
+      JOIN RATING ra ON m.MID = ra.MID
+
+      GROUP BY m.TITLE
+
+      ORDER BY RANGO DESC, m.TITLE;
+    languageId: oracle-sql
+  - kind: 2
+    value: >
+      /*9. Comparativa de Promedios Históricos
+
+      Enunciado: Calcule la diferencia entre el promedio de calificaciones de
+      las películas estrenadas antes de
+
+      1980 y el promedio de las estrenadas después de 1980.
+
+      Resultados esperados: 0.05555555*/
+
+      SELECT AVG(CASE WHEN m.YEAR < 1980 THEN ra.STARS END)
+       - AVG(CASE WHEN m.YEAR >= 1980 THEN ra.STARS END) AS DIFERENCIA_PROMEDIOS
+      FROM MOVIE m
+
+      JOIN RATING ra ON m.MID = ra.MID;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT DISTINCT re.NAME
+      FROM MOVIE m
+      JOIN RATING ra ON m.MID = ra.MID
+      join REVIEWER re ON ra.RID = re.RID
+      where m.TITLE= 'Gone with the Wind';
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT re.NAME
+      from RATING ra
+      join REVIEWER re ON ra.RID = re.RID
+      join MOVIE m ON ra.MID = m.MID
+      where m.DIRECTOR = re.NAME
+      ORDER BY re.NAME;
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      /*Devuelva todos los nombres de críticos y directores de la base de datos
+      en una sola lista,
+
+      ordenados alfabéticamente.*/
+
+      SELECT  DISTINCT re.NAME
+
+      FROM REVIEWER re
+
+      UNION
+
+      SELECT DISTINCT m.DIRECTOR
+
+      FROM MOVIE m
+
+      ORDER BY NAME;
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      SELECT DISTINCT m.TITLE
+      FROM MOVIE m
+      JOIN RATING ra ON m.MID = ra.MID
+      join REVIEWER re ON ra.RID = re.RID
+      WHERE re.NAME != 'Chris Jackson'
+      ORDER BY m.TITLE;
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      /*Para cada director, devuelva su nombre junto con el título(s) de la(s)
+      película(s) que dirigió y
+
+      que recibió la calificación más alta entre todas sus películas, incluyendo
+      el valor de dicha calificación.
+
+      Ignore aquellas películas cuyo director sea nulo (NULL).*/
+
+      SELECT DISTINCT m.DIRECTOR, m.TITLE, ra.STARS
+
+      FROM MOVIE m
+
+      JOIN RATING ra ON m.MID = ra.MID
+
+      WHERE ra.STARS = (SELECT MAX(ra2.STARS)
+
+      FROM RATING ra2
+
+      JOIN MOVIE m2 ON ra2.MID = m2.MID
+
+      WHERE m2.DIRECTOR = m.DIRECTOR)
+
+      AND m.DIRECTOR IS NOT NULL
+
+      ORDER BY m.DIRECTOR, m.TITLE desc;
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      SELECT *
+      FROM RaTING ra
+      INNER JOIN MOVIE m ON ra.MID = m.MID;
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      SELECT re.NAME 
+      FROM REVIEWER re
+      NATURAL JOIN RATING ra
+      HAVING COUNT(re.NAME)>=3
+      GROUP BY re.NAME
+      ORDER BY 1
+    languageId: oracle-sql

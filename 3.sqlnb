@@ -1,0 +1,19 @@
+cells:
+  - kind: 2
+    value: >
+      /**1. Encuentra los nombres de todos los estudiantes que son amigos de
+      alguien llamado Gabriel
+
+      Resultados esperados:*/
+
+      SELECT DISTINCT h.name
+
+      FROM Highschooler h
+
+      JOIN Friend f
+          ON h.id = f.id1 OR h.id = f.id2
+      JOIN Highschooler g
+          ON g.name = 'Gabriel'
+       AND (g.id = f.id1 OR g.id = f.id2)
+      WHERE h.id <> g.id;
+    languageId: oracle-sql
