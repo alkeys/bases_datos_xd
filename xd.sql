@@ -446,4 +446,3 @@ having count(ra.rid) > 2
 group by re.name
 ;
 
-
