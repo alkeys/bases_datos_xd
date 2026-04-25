@@ -272,3 +272,16 @@ from likes l1
 join highschooler h1 on h1.id=l1.id2
 group by h1.name ,h1.grade
 having count(l1.id2)>1;
+
+
+select 
+(select avg(ra.stars)
+ from rating ra 
+join movie m on m.mid=ra.mid
+where m.year<1980)
+-
+(select avg(ra.stars)
+ from rating ra 
+join movie m on m.mid=ra.mid
+where m.year>1980)
+from dual;
